@@ -11,13 +11,12 @@ exports.getLocation = asyncHandler(async (req, res) => {
     const { data } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}%2C${longitude}&key=${process.env.CAGE_API_KEY}`)
     console.log(data)
 
-    let str = ""
-    let city = data.results[0].components.city
-    str += " " + data.results[0].components.road
-    str += " " + data.results[0].components.neightbourhood
+    str += data.results[0].components.road
+    str += " " + data.results[0].components.neighbourhood
     str += " " + data.results[0].components.suburb
     str += " " + data.results[0].components.city
     str += " " + data.results[0].components.postcode
+
 
     res.json({
         message: "location fetch success", result:
