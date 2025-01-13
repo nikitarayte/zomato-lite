@@ -1,16 +1,14 @@
 const asyncHandler = require("express-async-handler")
 const { checkEmpty } = require("../utils/checkEmpty")
-
+const axios = require("axios")
+const Customer = require("../models/Customer")
 exports.getLocation = asyncHandler(async (req, res) => {
     const { latitude, longitude } = req.body
     const { isError, error } = checkEmpty({ latitude, longitude })
     if (isError) {
         return res.status(400).json({ message: "all fields required", error })
     }
-    const { data } = await axios.get
-        (`https://api.opencagedata.com/geocode/v1/
-    // json?q=${latitude}%2C${longitude}&key=${process.env.CAGE_API_KEY}`)
-
+    const { data } = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}%2C${longitude}&key=${process.env.CAGE_API_KEY}`)
     console.log(data)
 
     let str = ""
