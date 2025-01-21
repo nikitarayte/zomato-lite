@@ -65,6 +65,11 @@ exports.placeOrder = asyncHandler(async (req, res) => {
     res.json({ message: "order place success" })
 })
 exports.getOrders = asyncHandler(async (req, res) => {
-    const result = await Order.find({ customer: req.user }).select("-customer -createdAt -updatedAt -__v").populate("resturant", "name hero").populate("items.dish", "name type image price")
+    const result = await Order
+        .find({ customer: req.user })
+        .select("-customer -createdAt -updatedAt -__v")
+        .populate("resturant", "name hero")
+        .populate("items.dish", "name type image price")
+        .sort({ createdAt: -1 })
     res.json({ message: "order fetch success", result })
 })

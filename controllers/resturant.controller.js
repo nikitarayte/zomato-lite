@@ -7,6 +7,7 @@ const cloud = require("../utils/cloudinary")
 const Resturant = require("../models/Resturant")
 const Menu = require("../models/Menu")
 const path = require("path")
+const Order = require("../models/Order")
 
 exports.updateInfo = asyncHandler(async (req, res) => {
 
@@ -114,5 +115,19 @@ exports.updateMenu = asyncHandler(async (req, res) => {
     })
 
 
+})
+
+exports.getResturantOrders = asyncHandler(async (req, res) => {
+    const result = await Order
+        .find({ resturant: req.user })
+        .select("-resturant -createdAt -updatedAt -__v")
+        .populate("customer", "name address")
+        .populate("items.dish", "name type image price")
+        .sort({ createdAt: -1 })
+    res.json({ message: "order fetch success", result })
+})
+exports.updateResturantStatus = asyncHandler(async (req, res) => {
+    await Order.findByIdAndUpdate(req.params.oid, { status: req.body.status })
+    res.json({ message: "order status change success" })
 })
 
