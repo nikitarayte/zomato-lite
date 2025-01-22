@@ -255,4 +255,4 @@ exports.loginRider = asyncHandler(async (req, res) => {
 exports.logoutRider = asyncHandler(async (req, res) => {
     res.clearCookie("zomato-rider")
     res.json({ message: "logout success" })
-})
+})  
