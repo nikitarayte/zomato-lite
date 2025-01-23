@@ -4,9 +4,9 @@ require("dotenv").config()
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const { resturantProtected, customerProtected, adminProtected, riderProtected } = require("./middlewares/Protected")
-const { httpServer } = require("./socket/socket")
+const { httpServer, app } = require("./socket/socket")
 
-const app = express()
+// const app = express()
 
 app.use(express.json()) // req.body
 app.use(cookieParser()) // req.cookies
