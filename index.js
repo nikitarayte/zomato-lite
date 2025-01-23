@@ -4,6 +4,7 @@ require("dotenv").config()
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const { resturantProtected, customerProtected, adminProtected, riderProtected } = require("./middlewares/Protected")
+const { httpServer } = require("./socket/socket")
 
 const app = express()
 
@@ -30,5 +31,5 @@ app.use((err, req, res, next) => {
 mongoose.connect(process.env.MONGO_URL)
 mongoose.connection.once("open", () => {
     console.log("db connected")
-    app.listen(process.env.PORT || 5000, console.log("server running"))
+    httpServer.listen(process.env.PORT || 5000, console.log("server running"))
 })
