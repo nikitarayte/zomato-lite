@@ -8,6 +8,7 @@ const Resturant = require("../models/Resturant")
 const Menu = require("../models/Menu")
 const path = require("path")
 const Order = require("../models/Order")
+const { io } = require("../socket/socket")
 
 exports.updateInfo = asyncHandler(async (req, res) => {
 
@@ -128,6 +129,7 @@ exports.getResturantOrders = asyncHandler(async (req, res) => {
 })
 exports.updateResturantStatus = asyncHandler(async (req, res) => {
     await Order.findByIdAndUpdate(req.params.oid, { status: req.body.status })
+    io.emit("res-status-update")
     res.json({ message: "order status change success" })
 })
 
