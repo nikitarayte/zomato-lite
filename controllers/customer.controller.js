@@ -68,7 +68,17 @@ exports.placeOrder = asyncHandler(async (req, res) => {
 })
 exports.getOrders = asyncHandler(async (req, res) => {
     const result = await Order
-        .find({ customer: req.user })
+        .find({ customer: req.user, status: { $ne: "delivered" } })
+        .select("-customer -createdAt -updatedAt -__v")
+        .select("-rider", "name mobile")
+        .populate("resturant", "name hero")
+        .populate("items.dish", "name type image price")
+        .sort({ createdAt: -1 })
+    res.json({ message: "order fetch success", result })
+})
+exports.getOrderHistory = asyncHandler(async (req, res) => {
+    const result = await Order
+        .find({ customer: req.user, status: "delivered" })
         .select("-customer -createdAt -updatedAt -__v")
         .select("-rider", "name mobile")
         .populate("resturant", "name hero")
