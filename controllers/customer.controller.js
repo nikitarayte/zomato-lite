@@ -70,7 +70,7 @@ exports.getOrders = asyncHandler(async (req, res) => {
     const result = await Order
         .find({ customer: req.user, status: { $ne: "delivered" } })
         .select("-customer -createdAt -updatedAt -__v")
-        .select("-rider", "name mobile")
+        .populate("rider", "name mobile")
         .populate("resturant", "name hero")
         .populate("items.dish", "name type image price")
         .sort({ createdAt: -1 })
