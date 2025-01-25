@@ -54,7 +54,7 @@ exports.riderProtected = asyncHandler(async (req, res, next) => {
             return res.status(401).json({ message: "invalid token" })
         }
         const result = await Rider.findById(decode._id)
-        if (!res.isActive) {
+        if (!result.isActive) {
             return res.status(401).json({ message: "account blocked by admin" })
         }
         req.user = decode._id
